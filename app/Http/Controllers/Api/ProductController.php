@@ -6,7 +6,6 @@ use App\API\ApiError;
 use App\Http\Controllers\Controller;
 use App\Repositories\Contracts\ProductRepositoryInterface;
 use Illuminate\Http\Request;
-use Ramsey\Uuid\Type\Integer;
 
 class ProductController extends Controller
 {
@@ -26,7 +25,7 @@ class ProductController extends Controller
     public function index()
     {
         $data = ['data' => $this->repository->findAll()];
-        
+
         return response()->json($data, 200);
     }
     /**
@@ -41,14 +40,15 @@ class ProductController extends Controller
             $this->repository->store($request->all());
 
             return response()->json(['data' => ['msg' => 'Produto criado com sucesso.']], 201);
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             if (config('app.debug')) {
                 return response()->json(ApiError::errorMessage($e->getMessage(), 1010), 502);
             }
 
-            return response()->json(ApiError::errorMessage('Houve um erro ao realizar a operação.', 
-            1010), 502);
+            return response()->json(ApiError::errorMessage(
+                'Houve um erro ao realizar a operação.',
+                1010
+            ), 502);
         }
     }
 
@@ -62,7 +62,7 @@ class ProductController extends Controller
     {
         $product = $this->repository->findById($id);
 
-        if (!$product) 
+        if (!$product)
             return response()->json(ApiError::errorMessage('Produto não encontrado.', 404), 404);
 
         $data = ['data' => $product];
@@ -80,17 +80,19 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $this->repository->update($id, $request->all());
+            if (!$this->repository->update($id, $request->all()))
+                return response()->json(ApiError::errorMessage('Produto não encontrado.', 404), 404);
 
             return response()->json(['data' => ['msg' => 'Produto atualizado com sucesso.']], 201);
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             if (config('app.debug')) {
                 return response()->json(ApiError::errorMessage($e->getMessage(), 1011), 502);
             }
 
-            return response()->json(ApiError::errorMessage('Houve um erro ao realizar a operação.', 
-            1011), 502);
+            return response()->json(ApiError::errorMessage(
+                'Houve um erro ao realizar a operação.',
+                1011
+            ), 502);
         }
     }
 
@@ -103,18 +105,22 @@ class ProductController extends Controller
     public function destroy($id)
     {
         try {
-            $this->repository->destroy($id);
+            if (!$this->repository->destroy($id))
+                return response()->json(ApiError::errorMessage('Produto não encontrado.', 404), 404);
 
-            return response()->json(['data' => ['msg' => 'Produto excluído com sucesso.']],
-            200);
-        }
-        catch(\Exception $e) {
+            return response()->json(
+                ['data' => ['msg' => 'Produto excluído com sucesso.']],
+                200
+            );
+        } catch (\Exception $e) {
             if (config('app.debug')) {
                 return response()->json(ApiError::errorMessage($e->getMessage(), 1012), 502);
             }
 
-            return response()->json(ApiError::errorMessage('Houve um erro ao realizar a operação.', 
-            1012), 502);
+            return response()->json(ApiError::errorMessage(
+                'Houve um erro ao realizar a operação.',
+                1012
+            ), 502);
         }
     }
 }

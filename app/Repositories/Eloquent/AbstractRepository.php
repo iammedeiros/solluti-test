@@ -13,12 +13,12 @@ abstract class AbstractRepository
     }
 
     //metodo que devolve a instância do model
-    public function resolveModel() 
+    public function resolveModel()
     {
         return app($this->model);
     }
 
-    public function findAll() 
+    public function findAll()
     {
         return $this->model->paginate(10);
     }
@@ -36,11 +36,24 @@ abstract class AbstractRepository
     public function update($id, $values)
     {
         $data = $this->findById($id);
-        $data->update($values);
+
+        if ($data)
+            $data->update($values);
+        else
+            return false;
+
+        return true;
     }
 
     public function destroy($id)
     {
-        $id->delete();
+        $data = $this->findById($id);
+
+        if ($data)
+            $data->delete();
+        else
+            return false;
+
+        return true;
     }
 }
