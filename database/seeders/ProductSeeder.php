@@ -17,43 +17,37 @@ class ProductSeeder extends Seeder
         Product::create([
             'store_id' => 1,
             'name' => 'Notebook Asus',
-            'price' => '2.400',
-            'active' => true
+            'price' => '2400'
         ]);
 
         Product::create([
             'store_id' => 1,
             'name' => 'Celular Samsung A30S',
-            'price' => '1.100',
-            'active' => true
+            'price' => '1100'
         ]);
 
         Product::create([
             'store_id' => 1,
             'name' => 'Carrinho de Bebê',
-            'price' => '400',
-            'active' => true
+            'price' => '400'
         ]);
 
         Product::create([
             'store_id' => 2,
             'name' => 'Notebook Dell',
-            'price' => '3.400',
-            'active' => true
+            'price' => '3400'
         ]);
 
         Product::create([
             'store_id' => 2,
             'name' => 'Celular Motorola Moto G9',
-            'price' => '1.800',
-            'active' => true
+            'price' => '1800'
         ]);
 
         Product::create([
             'store_id' => 2,
             'name' => 'Geladeira Brastemp',
-            'price' => '2.400',
-            'active' => true
+            'price' => '2400'
         ]);
     }
 }

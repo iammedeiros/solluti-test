@@ -20,18 +20,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('products', ProductController::class)->names([
+Route::resource('products', ProductController::class)->except('create', 'edit')->names([
     'index' => 'product.index',
-    'create' => 'product.create',
     'store' => 'product.store',
     'show' => 'product.show',
     'edit' => 'product.edit',
     'destroy' => 'product.destroy'
 ]);
 
-Route::resource('stores', StoreController::class)->names([
+Route::resource('stores', StoreController::class)->except('create', 'edit')->names([
     'index' => 'store.index',
-    'create' => 'store.create',
     'store' => 'store.store',
     'show' => 'store.show',
     'edit' => 'store.edit',

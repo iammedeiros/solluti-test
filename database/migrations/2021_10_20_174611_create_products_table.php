@@ -18,9 +18,9 @@ class CreateProductsTable extends Migration
             $table->foreignId('store_id')->constrained('stores')->onUpdate('cascade')
                 ->onDelete('restrict');
             $table->string('name', 60);
-            $table->decimal('price');
-            $table->boolean('active');
+            $table->decimal('price', 10, 2);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
