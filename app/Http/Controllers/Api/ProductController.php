@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\API\ApiError;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use App\Repositories\Contracts\ProductRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -37,6 +38,22 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|max:60|min:3',
+                'price' => 'required|numeric|max:6|min:2'
+            ], [
+                'name.required' => 'O nome do produto é de preenchimento obrigatório.',
+                'name.max' => 'O nome do produto não pode exceder 60 caracteres.',
+                'name.min' => 'O nome do produto não poder ter menos de 3 caracteres.',
+                'price.required' => 'O preço do produto é de preenchimento obrigatório.',
+                'price.numeric' => 'O preço do produto tem que ser um valor númerico.',
+                'price.max' => 'O preço do produto não pode exceder 6 caracteres.',
+                'price.min' => 'O preço do produto não pode ser menos de 2 caracteres.',
+            ]);
+
+            if ($validator->fails())
+                return response()->json(['data' => $validator->errors()]);
+
             $this->repository->store($request->all());
 
             return response()->json(['data' => ['msg' => 'Produto criado com sucesso.']], 201);
@@ -80,6 +97,22 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|max:60|min:3',
+                'price' => 'numeric|max:6|min:2'
+            ], [
+                'name.required' => 'O nome do produto é de preenchimento obrigatório.',
+                'name.max' => 'O nome do produto não pode exceder 60 caracteres.',
+                'name.min' => 'O nome do produto não poder ter menos de 3 caracteres.',
+                'price.required' => 'O preço do produto é de preenchimento obrigatório.',
+                'price.numeric' => 'O preço do produto tem que ser um valor númerico.',
+                'price.max' => 'O preço do produto não pode exceder 6 caracteres.',
+                'price.min' => 'O preço do produto não pode ser menos de 2 caracteres.',
+            ]);
+
+            if ($validator->fails())
+                return response()->json(['data' => $validator->errors()]);
+
             if (!$this->repository->update($id, $request->all()))
                 return response()->json(ApiError::errorMessage('Produto não encontrado.', 404), 404);
 
