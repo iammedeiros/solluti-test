@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'store_id',
+        'name',
+        'price',
+        'active'
+    ];
+
+    public function store() {
+        return $this->belongsTo(Store::class, 'store_id', 'id');
+    }
 }
