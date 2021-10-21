@@ -77,12 +77,13 @@ class StoreController extends Controller
      */
     public function show($id)
     {
-        $product = $this->repository->findById($id);
+        $store = $this->repository->findById($id);
+        $products = $this->repository->findProductsByStoreId($store->id);
 
-        if (!$product)
+        if (!$store)
             return response()->json(ApiError::errorMessage('Loja não encontrada.', 404), 404);
 
-        $data = ['data' => $product];
+        $data = ['data' => ['store' => $store, 'products' => $products]];
 
         return response()->json($data, 200);
     }

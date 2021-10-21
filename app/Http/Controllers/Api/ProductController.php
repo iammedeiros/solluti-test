@@ -40,7 +40,7 @@ class ProductController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|max:60|min:3',
-                'price' => 'required|numeric|max:6|min:2'
+                'price' => 'required|numeric|min:2'
             ], [
                 'name.required' => 'O nome do produto é de preenchimento obrigatório.',
                 'name.max' => 'O nome do produto não pode exceder 60 caracteres.',
@@ -99,7 +99,7 @@ class ProductController extends Controller
         try {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|max:60|min:3',
-                'price' => 'numeric|max:6|min:2'
+                'price' => 'required|numeric|min:2'
             ], [
                 'name.required' => 'O nome do produto é de preenchimento obrigatório.',
                 'name.max' => 'O nome do produto não pode exceder 60 caracteres.',

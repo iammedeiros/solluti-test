@@ -10,4 +10,5 @@ interface StoreRepositoryInterface
     public function findAll();
     public function findById($id);
     public function destroy($id);
+    public function findProductsByStoreId($store_id);
 }

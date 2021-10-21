@@ -10,11 +10,20 @@ class Product extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $appends = ['formated_price'];
+
     protected $fillable = [
         'store_id',
         'name',
-        'price',
+        'price'
     ];
+
+    protected $hidden = ['price'];
+
+    public function getFormatedPriceAttribute()
+    {
+        return "R$ " . number_format($this->price, 2, ',', '.');
+    }
 
     public function store() {
         return $this->belongsTo(Store::class, 'store_id', 'id');
